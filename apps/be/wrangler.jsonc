@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "api-pipe",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-09-07",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "dev": {
+    "port": 4000
+  },
+  "minify": true,
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "BASE_URL":""
+  },
+  "d1_databases": [
+   {
+    "binding": "DB",
+    "database_name": "app",
+    "database_id": "6dd7ba47-b6d4-464d-8c29-fb8683649a9f",
+    "preview_database_id": "6dd7ba47-b6d4-464d-8c29-fb8683649a9f",
+  }
+  ]
+}
