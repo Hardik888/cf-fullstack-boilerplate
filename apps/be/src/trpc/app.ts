@@ -12,7 +12,9 @@ const router = t.router
 
 export const appRouter = router({
     hello: publicProcedure.input(z.object({ name: z.string() })).query(({ input }) => {
-        return `Hello ${input.name}!`
+        return {
+            greeting: `Hello, ${input.name}!`,
+        }
     }),
 })
 
