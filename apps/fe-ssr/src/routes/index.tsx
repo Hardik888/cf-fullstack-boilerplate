@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { createServerTRPCClient } from "@/utils/server-trpc";
 
@@ -43,6 +43,13 @@ function App() {
             <div className="text-xl text-green-400">{response.greeting}</div>
           )}
         </div>
+
+        <Link
+          to="/client"
+          className="mt-6 inline-block px-6 py-3 bg-green-500/10 border border-green-500/50 text-green-400 hover:bg-green-500/20 hover:border-green-400 hover:text-green-300 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] rounded-lg font-mono uppercase tracking-wider transition-all duration-300"
+        >
+          [ Enter Client Mode ]
+        </Link>
       </div>
     </div>
   );
