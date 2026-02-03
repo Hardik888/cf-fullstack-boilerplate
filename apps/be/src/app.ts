@@ -1,6 +1,6 @@
 import { trpcServer } from '@hono/trpc-server'
 import { createApp } from './app.utils'
-import { createContext } from './context';
+import { createContext, createTrpcContext } from './context';
 import { appRouter } from './trpc/app';
 import { cors } from 'hono/cors';
 
@@ -30,9 +30,12 @@ app.use(async (c, next) => {
 
 
 app.use(
-    '/trpc/*',
+    "/trpc/*",
     trpcServer({
+        endpoint: "/trpc",
         router: appRouter,
-    })
-)
+        createContext: (_, c) => createTrpcContext({ env: c.env }),
+    }),
+);
+
 export default app
