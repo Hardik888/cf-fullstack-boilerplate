@@ -2,28 +2,28 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { createServerTRPCClient } from "@/utils/server-trpc";
 
-const fetchHelloFromServer = createServerFn({ method: "GET" })
+const fetchHello = createServerFn({ method: "GET" })
   .inputValidator((name: string) => name)
   .handler(async ({ data: name }) => {
-    try {
-      const serverTrpc = createServerTRPCClient();
-      const greeting = await serverTrpc.hello.query({ name });
-      return greeting;
-    } catch (error) {
-      return { greeting: null, error: "Failed to fetch greeting from server" };
-    }
+    const trpc = createServerTRPCClient();
+    return trpc.hello.query({ name });
   });
 
 export const Route = createFileRoute("/")({
   component: App,
-  loader: async () => {
-    const response = await fetchHelloFromServer({ data: "Hardik" });
-    return { response, error: null };
-  },
+  errorComponent: ({ error }) => (
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-zinc-800 to-black p-4 text-white">
+      <div className="p-8 rounded-xl bg-red-500/10 border border-red-500/50">
+        <h1 className="text-xl font-bold text-red-400 mb-2">Error</h1>
+        <p className="text-red-300">{error.message}</p>
+      </div>
+    </div>
+  ),
+  loader: () => fetchHello({ data: "Hardik" }),
 });
 
 function App() {
-  const { response, error } = Route.useLoaderData();
+  const { greeting } = Route.useLoaderData();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-zinc-800 to-black p-4 text-white">
@@ -37,11 +37,7 @@ function App() {
 
         <div className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700">
           <div className="text-sm text-zinc-400 mb-1">Response:</div>
-          {error ? (
-            <div className="text-red-400">{error}</div>
-          ) : (
-            <div className="text-xl text-green-400">{response.greeting}</div>
-          )}
+          <div className="text-xl text-green-400">{greeting}</div>
         </div>
 
         <Link
